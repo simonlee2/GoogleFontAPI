@@ -18,4 +18,8 @@ public struct GoogleFontAPI {
                 completion(fonts)
             }
     }
+
+    public func download(font: GoogleFont, variant: String, completion: @escaping (Result<InstallableFont, Error>) -> Void) {
+        
+    }
 }

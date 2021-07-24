@@ -14,21 +14,16 @@ public struct GoogleFontResponse: Codable {
 public struct GoogleFont: Codable {
     public let family: String
     public let variants: [String]
-    public let subsets: [String]
-    public let version: String
-    public let lastModified: String
     public let files: [String: URL]
-    public let category: String
-    public let kind: String
 
     public enum CodingKeys: String, CodingKey {
         case family = "family"
         case variants = "variants"
-        case subsets = "subsets"
-        case version = "version"
-        case lastModified = "lastModified"
         case files = "files"
-        case category = "category"
-        case kind = "kind"
     }
+}
+
+public protocol InstallableFont {
+    var postScriptName: String { get }
+    var fontData: Data { get }
 }
