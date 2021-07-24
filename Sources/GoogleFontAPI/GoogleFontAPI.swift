@@ -1,8 +1,14 @@
 import Alamofire
 
 public struct GoogleFontAPI {
+    private let apiKey: String
+
+    public init(apiKey: String) {
+        self.apiKey = apiKey
+    }
+
     public func fetchAllFonts(completion: @escaping (Result<[GoogleFont], Error>) -> Void) {
-        let parameters = ["key": GoogleFontAPIKey]
+        let parameters = ["key": apiKey]
         AF.request("https://www.googleapis.com/webfonts/v1/webfonts", parameters: parameters)
             .validate()
             .responseDecodable(of: GoogleFontResponse.self) { response in

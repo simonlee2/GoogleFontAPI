@@ -3,7 +3,7 @@
 
     final class GoogleFontAPITests: XCTestCase {
         func testFetchAllFonts() {
-            let api = GoogleFontAPI()
+            let api = GoogleFontAPI(apiKey: GoogleFontAPIKey)
             let expectation = XCTestExpectation(description: "fetch fonts")
             api.fetchAllFonts { result in
                 switch result {
