@@ -25,6 +25,7 @@ public class GoogleFontSource: FontSource {
             case .failure(let error):
                 debugPrint("Error: \(error)")
             }
+            completion()
         }
     }
 }
