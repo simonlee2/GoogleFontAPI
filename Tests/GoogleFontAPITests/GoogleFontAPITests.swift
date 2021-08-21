@@ -44,4 +44,10 @@ final class GoogleFontAPITests: XCTestCase {
             })
             .store(in: &cancellables)
     }
+
+    @available(iOS 15, *)
+    func testFetchAllFontsAsync() async throws {
+        let fonts = try await api.allFont()
+        XCTAssertFalse(fonts.isEmpty)
+    }
 }

@@ -32,6 +32,13 @@ public struct GoogleFontAPI {
             .eraseToAnyPublisher()
     }
 
+    @available(iOS 15, *)
+    public func allFont() async throws -> [GoogleFont] {
+        try await withCheckedThrowingContinuation { continuation in
+            fetchAllFonts(completion: { continuation.resume(with: $0) })
+        }
+    }
+
     public func download(font: GoogleFont, variant: String, completion: @escaping (Result<InstallableFont, Error>) -> Void) {
         
     }
