@@ -1,22 +1,35 @@
 import Alamofire
+import Combine
 
 public struct GoogleFontAPI {
     private let apiKey: String
+    private let apiHost: String
 
-    public init(apiKey: String) {
-        self.apiKey = apiKey
+    private var params: [String: String] {
+        ["key": apiKey]
     }
 
-    public func fetchAllFonts(completion: @escaping (Result<[GoogleFont], Error>) -> Void) {
-        let parameters = ["key": apiKey]
-        AF.request("https://www.googleapis.com/webfonts/v1/webfonts", parameters: parameters)
+    public init(apiKey: String, apiHost: String = "https://www.googleapis.com/webfonts/v1/webfonts") {
+        self.apiKey = apiKey
+        self.apiHost = apiHost
+    }
+
+    public func fetchAllFonts(completion: @escaping (Result<[GoogleFont], AFError>) -> Void) {
+        AF.request(apiHost, parameters: params)
             .validate()
             .responseDecodable(of: GoogleFontResponse.self) { response in
                 let fonts = response.result
                     .map({ $0.items })
-                    .mapError({ $0 as Error })
                 completion(fonts)
             }
+    }
+
+    public func fetchAllFonts() -> AnyPublisher<[GoogleFont], AFError> {
+        AF.request(apiHost, parameters: params)
+            .validate()
+            .publishDecodable(type: [GoogleFont].self)
+            .value()
+            .eraseToAnyPublisher()
     }
 
     public func download(font: GoogleFont, variant: String, completion: @escaping (Result<InstallableFont, Error>) -> Void) {
